@@ -106,6 +106,21 @@ public abstract class Ship {
 		
 	}
 	
+	/*
+	 * Return true if every part of the ship has been hit, false otherwise
+	 */
+	boolean isSunk(){
+		
+	}
+	
+	/*
+	 * Returns a single-character String to use in the Ocean’s print method. This method should return ”s” if the ship has been sunk and ”x” if it has not been sunk. 
+	 * This method can be used to print out locations in the ocean that have been shot at; it should not be used to print locations that have not been shot at. Since toString
+	 * behaves exactly the same for all ship types, it is placed here in the Ship class.
+	 */
+	@Override
+	public String toString()
+	
 	
 	
 	
