@@ -1,4 +1,7 @@
 
+/**
+ * Describes a ship of length 4
+ */
 public class Battleship extends Ship{
 
 	public Battleship()) {

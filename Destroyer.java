@@ -1,4 +1,6 @@
-
+/**
+ * Describes a ship of length 2
+ */
 public class Destroyer extends Ship{
 
 	public Destroyer() {
