@@ -3,7 +3,7 @@
  */
 public class Submarine extends Ship{
 
-	private static final int LENGTH = 4;
+	private static final int LENGTH = 1;
 	private static final String TYPE = "submarine"
 	
 	public Submarine() {

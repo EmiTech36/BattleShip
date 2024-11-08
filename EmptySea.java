@@ -33,7 +33,7 @@ public class EmptySea extends Ship{
 		
 	}
 	
-	/*
+	/* 
 	 * This method just returns the string "empty"
 	 */
 	@Override
