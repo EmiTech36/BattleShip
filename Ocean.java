@@ -11,7 +11,7 @@ public class Ocean {
 	 * Also initialiizes any game variables, such as how many shots have been fired.
 	 */
 	public Ocean() {
-		
+		//commented by maggie
 	}
 	
 	/*
