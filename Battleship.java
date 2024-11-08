@@ -7,10 +7,9 @@ public class Battleship extends Ship{
 	private static final int LENGTH = 4;
 	private static final String TYPE = "battleship"
 	
-	public Battleship()) {
+	public Battleship() {
 		// TODO Auto-generated constructor stub
 		super(LENGTH);
-		
 	}
 	
 	/**

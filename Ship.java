@@ -40,7 +40,7 @@ public abstract class Ship {
 	}
 	
 	// returns whether the ship is horizontal or not
-	public boolean is Horizontal() {
+	public boolean isHorizontal() {
 		
 	}
 	
@@ -119,7 +119,9 @@ public abstract class Ship {
 	 * behaves exactly the same for all ship types, it is placed here in the Ship class.
 	 */
 	@Override
-	public String toString()
+	public String toString() {
+		
+	}
 	
 	
 	
