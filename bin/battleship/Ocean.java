@@ -66,13 +66,14 @@ public class Ocean {
 	 * returns the number of shots fired (in the game)
 	 */
 	int getShotsFired() {
-		
+		return shotsFired;
 	}
 	
 	/*
 	 * Returns the number of hits recorded (in the game). All hits are counted, not just the first time a given square is hit.
 	 */
 	int getHitCount() {
+		return hitCount;
 		
 	}
 	
@@ -80,14 +81,19 @@ public class Ocean {
 	 * Returns the number of ships sunk (in the game)
 	 */
 	int getShipsSunk() {
-		
+		return shipsSunk();
+	
 	}
 	
 	/*
 	 * Returns true if all ships have been sunk, otherwise false.
 	 */
 	boolean isGameOver() {
-		
+		if (shipsSunk == 10) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/*
