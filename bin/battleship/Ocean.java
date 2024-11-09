@@ -66,14 +66,14 @@ public class Ocean {
 	 * returns the number of shots fired (in the game)
 	 */
 	int getShotsFired() {
-		return shotsFired;
+		return this.shotsFired;
 	}
 	
 	/*
 	 * Returns the number of hits recorded (in the game). All hits are counted, not just the first time a given square is hit.
 	 */
 	int getHitCount() {
-		return hitCount;
+		return this.hitCount;
 		
 	}
 	
@@ -81,7 +81,7 @@ public class Ocean {
 	 * Returns the number of ships sunk (in the game)
 	 */
 	int getShipsSunk() {
-		return shipsSunk();
+		return this.shipsSunk();
 	
 	}
 	
