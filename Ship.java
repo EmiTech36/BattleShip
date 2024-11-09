@@ -8,7 +8,7 @@ public abstract class Ship {
 	private int length;
 	// a boolean that represents whether the ship is going to be placed horizontallly or vertically
 	private boolean horizontal;
-	// an array od booleans that indicate whether that part of the ship has been hit or not
+	// an array of booleans that indicate whether that part of the ship has been hit or not
 	private boolean [] hit;
 	
 	
@@ -16,32 +16,37 @@ public abstract class Ship {
 	
 	// this constructor sets the length property of the particular ship and initializes the hit array based on that length.	
 	public Ship(int length) {
+		this.length = length // set length
+        hit = new boolean[this.length]; // Initialize array with given length
+        for (int i = 0; i < this.length; i++) {
+            hit[i] = true; // Set each position to true
+        }
 
 	}
 	
 	// returns the ship length
 	public int getLength() {
-		
+		return this.length;
 	}
 	
 	// returns the row correspondinng to the position of the bow
 	public int getBowRow() {
-		
+		return this.bowRow;
 	}
 	
 	// returns the bow column location
 	public int getBowColumn() {
-		
+		return this.bowColumn;
 	}
 	
 	// returns the hit array
 	public boolean[] getHit() {
-		
+		return this.hit;
 	}
 	
 	// returns whether the ship is horizontal or not
 	public boolean isHorizontal() {
-		
+		return this.horizontal ;
 	}
 	
 	
@@ -49,17 +54,17 @@ public abstract class Ship {
 	
 	// sets the value of bowRow
 	public void setBowRow(int row) {
-		
+		this.bowRow = row;
 	}
 	
 	// sets the value of bowColumn
 	public void setBowColumn (int column){
-		
+		this.bowColumn = column;
 	}
 	
 	// sets the value of the instance variable horizontal
 	public void setHorizontal (boolean horizontal) {
-		
+		this.horizontal = horizontal;
 	}
 	
 	
@@ -67,7 +72,7 @@ public abstract class Ship {
 	
 	// returns the type of ship as a String. Every specific type of Ship (e.g. Battleship, Cruiser, etc.) has to override and implement this method
 	// and return the corresponding ship type.
-	public abstract String getShipType() {
+	public abstract String getShipType(){
 		
 	}
 	
@@ -76,11 +81,69 @@ public abstract class Ship {
 	
 	/**
 	 *  Based on the given row, column, and orientation, returns true if it is okay to put a ship of this length with its bow in this location;
-	 *  false otherwise. Teh ship must not overlap another, or touch another ship (vertically, horizontally, or diagonally), and it must not "stick out"
+	 *  false otherwise. The ship must not overlap another, or touch another ship (vertically, horizontally, or diagonally), and it must not "stick out"
 		beyond the array. Does not actually change either the ship or the Ocean - it just says if it is leagal to do so.
 	 */
 	boolean okToPlaceShipAt( int row, int column, boolean horizontal, Ocean ocean) {
-		
+		boolean occupied;
+		// horizontal ship
+		if (horizontal == true) {
+			//row above:
+			if (0 <= row-1) {
+				for (int i = column-2; i < this.length; i++) {
+				    occupied = ocean.isOccupied(row-1, i);
+				    if (occupied == false) {
+				    	return false;
+				    }
+				}
+			}
+			// given row
+			for (int i = column-2; i < this.length; i++) {
+			    occupied = ocean.isOccupied(row, i);
+			    if (occupied == false) {
+			    	return false;
+			    }
+			}
+			// row below
+			if (row+1 <= 9) {
+				for (int i = column-2; i < this.length; i++) {
+				    occupied = ocean.isOccupied(row+1, i);
+				    if (occupied == false) {
+				    	return false;
+				    }
+				}
+			}
+			
+		}
+		// vertical ship
+		if (horizontal == false) {
+			//left column:
+			if (0 <= column-1) {
+				for (int i = row-2; i < this.length; i++) {
+				    occupied = ocean.isOccupied(i,column-1);
+				    if (occupied == false) {
+				    	return false;
+				    }
+				}
+			}
+			// given column
+			for (int i = row-2; i < this.length; i++) {
+			    occupied = ocean.isOccupied(i,column);
+			    if (occupied == false) {
+			    	return false;
+			    }
+			}
+			// right column
+			if (column+1 <= 9) {
+				for (int i = row-2; i < this.length; i++) {
+				    occupied = ocean.isOccupied(i,column+1);
+				    if (occupied == false) {
+				    	return false;
+				    }
+				}
+			}	
+		}
+		return true;
 	}
 	
 	/**
@@ -95,9 +158,24 @@ public abstract class Ship {
 	 * If you place a vertical cruiser at location (4,0) in the ocean, the bow is at lcoation (4,0) and the rest of the ship occupies locations (3,0), (2,0).
 	 */
 	void placeShipAt (int row, int column, boolean horizontal, Ocean ocean) {
+		this.setBowRow(row);
+		this.setBowColumn(column);
+		this.setHorizontal(horizontal);
 		
+	    // Place the ship in the 'ships' array in the Ocean object
+	    if (horizontal) {
+	        // Place the ship horizontally (from bow to left)
+	        for (int i = 0; i < this.length; i++) {
+	            ocean.getShipsArray()[row][column - i] = this;
+	        }
+	    } else {
+	        // Place the ship vertically (from bow upwards)
+	        for (int i = 0; i < this.length; i++) {
+	            ocean.getShipsArray()[row - i][column] = this;
+	        }
+	    }
 	}
-	
+
 	/**
 	 * If a part of the ship occupies the given row and column, and the ship hasn’t been sunk, mark that part of the ship as “hit” (in the hit array, index 0 indicates 
 	 * the bow) and return true; otherwise return false.
