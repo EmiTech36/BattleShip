@@ -1,14 +1,16 @@
-/**
- * Describes a ship of length 1
- */
-public class Submarine extends Ship{
+package battleship;
 
-	private static final int LENGTH = 1;
-	private static final String TYPE = "submarine"
+/**
+ * Describes a ship of length 2
+ */
+public class Destroyer extends Ship{
+
+	private static final int LENGTH = 2;
+	private static final String TYPE = "destroyer";
 	
-	public Submarine() {
+	public Destroyer() {
 		// TODO Auto-generated constructor stub
-		super(LENGTH);	
+		super(LENGTH);
 	}
 	
 	/**
@@ -22,5 +24,4 @@ public class Submarine extends Ship{
 		return this.TYPE;
 	}
 
-}
 }

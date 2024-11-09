@@ -34,7 +34,7 @@ class ShipTest {
 		assertEquals(1, ship.getLength());
 		
 		// test 5
-		emptySea = new EmptySea();
+		Ship emptySea = new EmptySea();
 		assertEquals(1, emptySea.getLength());
 	}
 

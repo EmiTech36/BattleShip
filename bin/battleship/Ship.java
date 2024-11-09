@@ -1,3 +1,4 @@
+package battleship;
 
 public abstract class Ship {
 	// the row that contains the bow (front part of the ship)
@@ -6,7 +7,7 @@ public abstract class Ship {
 	private int bowColumn;
 	//the length of the ship
 	private int length;
-	// a boolean that represents whether the ship is going to be placed horizontallly or vertically
+	// a boolean that represents whether the ship is going to be placed horizontally or vertically
 	private boolean horizontal;
 	// an array of booleans that indicate whether that part of the ship has been hit or not
 	private boolean [] hit;
@@ -16,10 +17,10 @@ public abstract class Ship {
 	
 	// this constructor sets the length property of the particular ship and initializes the hit array based on that length.	
 	public Ship(int length) {
-		this.length = length // set length
+		this.length = length; // set length
         hit = new boolean[this.length]; // Initialize array with given length
         for (int i = 0; i < this.length; i++) {
-            hit[i] = true; // Set each position to true
+            hit[i] = false; // Set each position to true
         }
 
 	}
@@ -29,7 +30,7 @@ public abstract class Ship {
 		return this.length;
 	}
 	
-	// returns the row correspondinng to the position of the bow
+	// returns the row corresponding to the position of the bow
 	public int getBowRow() {
 		return this.bowRow;
 	}
@@ -72,9 +73,7 @@ public abstract class Ship {
 	
 	// returns the type of ship as a String. Every specific type of Ship (e.g. Battleship, Cruiser, etc.) has to override and implement this method
 	// and return the corresponding ship type.
-	public abstract String getShipType(){
-		
-	}
+	public abstract String getShipType();
 	
 	
 	//Other Methods
@@ -82,7 +81,7 @@ public abstract class Ship {
 	/**
 	 *  Based on the given row, column, and orientation, returns true if it is okay to put a ship of this length with its bow in this location;
 	 *  false otherwise. The ship must not overlap another, or touch another ship (vertically, horizontally, or diagonally), and it must not "stick out"
-		beyond the array. Does not actually change either the ship or the Ocean - it just says if it is leagal to do so.
+		beyond the array. Does not actually change either the ship or the Ocean - it just says if it is legal to do so.
 	 */
 	boolean okToPlaceShipAt( int row, int column, boolean horizontal, Ocean ocean) {
 		boolean occupied;
@@ -155,7 +154,7 @@ public abstract class Ship {
 	 * vertical ships face South (bow at bottom end). 
 	 * This means if you place a horizontal battleship at location (9,8) in the ocean, the bow is at location (9,8) and the rest of the shp occupies locations: (9,7)
 	 * , (9,6), (9,5).
-	 * If you place a vertical cruiser at location (4,0) in the ocean, the bow is at lcoation (4,0) and the rest of the ship occupies locations (3,0), (2,0).
+	 * If you place a vertical cruiser at location (4,0) in the ocean, the bow is at location (4,0) and the rest of the ship occupies locations (3,0), (2,0).
 	 */
 	void placeShipAt (int row, int column, boolean horizontal, Ocean ocean) {
 		this.setBowRow(row);
@@ -181,69 +180,61 @@ public abstract class Ship {
 	 * the bow) and return true; otherwise return false.
 	 */
 	boolean shootAt(int row, int column){
-		
+	    // If the ship is already sunk, return false
+	    if (this.isSunk()) {
+	        return false;
+	    }
+
+	    // Determine the length of the ship
+	    int length = this.getLength();
+
+	    // Check if the shot is hitting any part of the ship based on its orientation
+	    if (this.horizontal) {
+	        // Horizontal ship: check if the shot matches any position from bow to the left
+	        if (row == this.bowRow && column <= this.bowColumn && column > this.bowColumn - length) {
+	            int hitIndex = this.bowColumn - column;  // Calculate the index in the hit array
+	            this.hit[hitIndex] = true;  // Mark this part of the ship as hit
+	            return true;
+	        }
+	    } else {
+	        // Vertical ship: check if the shot matches any position from bow upwards
+	        if (column == this.bowColumn && row <= this.bowRow && row > this.bowRow - length) {
+	            int hitIndex = this.bowRow - row;  // Calculate the index in the hit array
+	            this.hit[hitIndex] = true;  // Mark this part of the ship as hit
+	            return true;
+	        }
+	    }
+
+	    // If the shot does not hit any part of the ship, return false
+	    return false;
+
 	}
 	
 	/*
 	 * Return true if every part of the ship has been hit, false otherwise
 	 */
 	boolean isSunk(){
-		
+        for (int i = 0; i < this.length; i++) {
+            if (hit[i] == false) {
+            	return false;
+            }
+        }
+		return true;
 	}
 	
 	/*
 	 * Returns a single-character String to use in the Ocean’s print method. This method should return ”s” if the ship has been sunk and ”x” if it has not been sunk. 
-	 * This method can be used to print out locations in the ocean that have been shot at; it should not be used to print locations that have not been shot at. Since toString
-	 * behaves exactly the same for all ship types, it is placed here in the Ship class.
+	 * This method can be used to print out locations in the ocean that have been shot at; it should not be used to print locations that have not been shot at. Since 
+	 * toString behaves exactly the same for all ship types, it is placed here in the Ship class.
 	 */
 	@Override
 	public String toString() {
-		
+	    // Check if the ship has been sunk
+	    if (this.isSunk()) {
+	        return "s";  // Return "s" if the ship is sunk
+	    } else {
+	        return "x";  // Return "x" if the ship is not sunk
+	    }
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	}
-	// 
+}
+
