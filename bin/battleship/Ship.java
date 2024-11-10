@@ -86,14 +86,21 @@ public abstract class Ship {
 	boolean okToPlaceShipAt( int row, int column, boolean horizontal, Ocean ocean) {
 		boolean occupied;
 		// check for outOfIndec input
+<<<<<<< HEAD
 		if (row > 9 || column > 9 || row < 0 || column < 0) {
+=======
+		if (row > 9 || column >9) {
+>>>>>>> 6eab9223d15ef9eaf6a5332fd23e7bd2830b839f
 			return false;
 		}
 		// horizontal ship
 		if (horizontal == true) {
+<<<<<<< HEAD
 			if (column-this.length < -1) {
 				return false;
 			} 
+=======
+>>>>>>> 6eab9223d15ef9eaf6a5332fd23e7bd2830b839f
 			//check if there are any ships in the row above:
 			if (0 <= row-1) {
 				for (int i = -1; i <= this.length; i++) { // check from column-1 to column+1
@@ -105,12 +112,22 @@ public abstract class Ship {
 			}
 			// check if there are any ships in the given row
 			for (int i = -1; i <= this.length; i++) { // check from column-1 to column+1
+<<<<<<< HEAD
 				if (column-this.length >= -1) {
 				    occupied = ocean.isOccupied(row, column-i); 
 				    if (occupied == true) {
 				    	return false;
 				    }
 				}
+=======
+				if (column-i == -1) { // account for indexOutofBound when column = 0
+					continue;
+				}
+			    occupied = ocean.isOccupied(row, column-i); 
+			    if (occupied == true) {
+			    	return false;
+			    }
+>>>>>>> 6eab9223d15ef9eaf6a5332fd23e7bd2830b839f
 			}
 			// check if there are any ships in the row below
 			if (row+1 <= 9) {
@@ -125,9 +142,12 @@ public abstract class Ship {
 		}
 		// vertical ship
 		if (horizontal == false) {
+<<<<<<< HEAD
 			if (row-this.length < -1) {
 				return false;
 			} 
+=======
+>>>>>>> 6eab9223d15ef9eaf6a5332fd23e7bd2830b839f
 			//check if there are any ships in the left column:
 			if (0 <= column-1) {
 				for (int i = -1; i <= this.length; i++) {
@@ -139,6 +159,12 @@ public abstract class Ship {
 			}
 			// check if there are any ships in the given column
 			for (int i = -1; i <= this.length; i++) {
+<<<<<<< HEAD
+=======
+				if (row-i == -1) { // account for indexOutofBound when row = 0
+					continue;
+				}
+>>>>>>> 6eab9223d15ef9eaf6a5332fd23e7bd2830b839f
 			    occupied = ocean.isOccupied(row-i,column); // check from row-1 to row+1
 			    if (occupied == true) {
 			    	return false;
