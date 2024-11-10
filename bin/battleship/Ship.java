@@ -90,14 +90,15 @@ public abstract class Ship {
 		}
 		// horizontal ship
 		if (horizontal == true) {
-			if (column-length < -1){
+			if (column-length < -1){ // when the ship does not fit with the given coordinates
 				return false;
 			}
-			int rowMin = Math.max(0, row-1);
-			int rowMax = Math.min(9, row+1);
-			int colMin = Math.max(0, column-length-1);
-			int colMax = Math.min(9, column+1);
+			int rowMin = Math.max(0, row-1); // top row of area of interest
+			int rowMax = Math.min(9, row+1); // bottom row of area of interest
+			int colMin = Math.max(0, column-length-1); // left most column of area of interest
+			int colMax = Math.min(9, column+1); // right most column of area of interest
 		
+			// check every position in the 2D grid created by rowMin, colMin, rowMax, colMax
 			for (int r = rowMin; r <= rowMax; r++) {
 				for (int c = colMin; c <= colMax; c++) {
 					if (ocean.isOccupied(r, c)) {
@@ -106,15 +107,17 @@ public abstract class Ship {
 				}
 			}
 		}
+		// vertical ship
 		else {
-			if (row-length < -1){
+			if (row-length < -1){ // when the ship does not fit with the given coordinates
 				return false;
 			}
-			int rowMin = Math.max(0, row-length-1);
-			int rowMax = Math.min(9, row+1);
-			int colMin = Math.max(0, column-1);
-			int colMax = Math.min(9, column+1);
+			int rowMin = Math.max(0, row-length-1); // top row of area of interest
+			int rowMax = Math.min(9, row+1); // bottom row of area of interest
+			int colMin = Math.max(0, column-1); // left most column of area of interest
+			int colMax = Math.min(9, column+1); // right most column of area of interest
 		
+			// check every position in the 2D grid created by rowMin, colMin, rowMax, colMax
 			for (int r = rowMin; r <= rowMax; r++) {
 				for (int c = colMin; c <= colMax; c++) {
 					if (ocean.isOccupied(r, c)) {
