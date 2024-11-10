@@ -341,13 +341,22 @@ class ShipTest {
 		boolean ok4 = destroyer.okToPlaceShipAt(row4, column4, horizontal4, ocean);
 		assertFalse(ok4, "Cannot place ship here.");
 		
-		// check (0,0), (0,1)
+		// test 5 check (0,0), (0,1)
 		Ship destroyer2 = new Destroyer();
 		int row5 = 0;
 		int column5 = 1;
 		boolean horizontal5 = true;
 		boolean ok5 = destroyer2.okToPlaceShipAt(row5, column5, horizontal5, ocean);
 		assertFalse(ok5, "Cannot place ship here.");
+		
+		// test 6
+		// test 5 check (0,0), (0,1)
+		Ship destroyer3 = new Destroyer();
+		int row6 = 9;
+		int column6 = 9;
+		boolean horizontal6 = false;
+		boolean ok6 = destroyer3.okToPlaceShipAt(row6, column6, horizontal6, ocean);
+		assertTrue(ok6, "Ok to place ship here.");
 	}
 	
 	@Test

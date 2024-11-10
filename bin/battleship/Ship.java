@@ -84,78 +84,48 @@ public abstract class Ship {
 		beyond the array. Does not actually change either the ship or the Ocean - it just says if it is legal to do so.
 	 */
 	boolean okToPlaceShipAt( int row, int column, boolean horizontal, Ocean ocean) {
-		boolean occupied;
 		// check for outOfIndec input
 		if (row > 9 || column > 9 || row < 0 || column < 0) {
 			return false;
 		}
 		// horizontal ship
 		if (horizontal == true) {
-			if (column-this.length < -1) {
+			if (column-length < -1){
 				return false;
-			} 
-			//check if there are any ships in the row above:
-			if (0 <= row-1) {
-				for (int i = -1; i <= this.length; i++) { // check from column-1 to column+1
-				    occupied = ocean.isOccupied(row-1, column-i);
-				    if (occupied == true) {
-				    	return false;
-				    }
+			}
+			int rowMin = Math.max(0, row-1);
+			int rowMax = Math.min(9, row+1);
+			int colMin = Math.max(0, column-length-1);
+			int colMax = Math.min(9, column+1);
+		
+			for (int r = rowMin; r <= rowMax; r++) {
+				for (int c = colMin; c <= colMax; c++) {
+					if (ocean.isOccupied(r, c)) {
+						return false;
+					}
 				}
 			}
-			// check if there are any ships in the given row
-			for (int i = -1; i <= this.length; i++) { // check from column-1 to column+1
-				if (column-this.length >= -1) {
-				    occupied = ocean.isOccupied(row, column-i); 
-				    if (occupied == true) {
-				    	return false;
-				    }
-				}
-			}
-			// check if there are any ships in the row below
-			if (row+1 <= 9) {
-				for (int i = -1; i <= this.length; i++) { // check from column-1 to column+1
-				    occupied = ocean.isOccupied(row+1, column-i);
-				    if (occupied == true) {
-				    	return false;
-				    }
-				}
-			}
-			
 		}
-		// vertical ship
-		if (horizontal == false) {
-			if (row-this.length < -1) {
+		else {
+			if (row-length < -1){
 				return false;
-			} 
-			//check if there are any ships in the left column:
-			if (0 <= column-1) {
-				for (int i = -1; i <= this.length; i++) {
-				    occupied = ocean.isOccupied(row-i,column-1); // check from row-1 to row+1
-				    if (occupied == true) {
-				    	return false;
-				    }
+			}
+			int rowMin = Math.max(0, row-length-1);
+			int rowMax = Math.min(9, row+1);
+			int colMin = Math.max(0, column-1);
+			int colMax = Math.min(9, column+1);
+		
+			for (int r = rowMin; r <= rowMax; r++) {
+				for (int c = colMin; c <= colMax; c++) {
+					if (ocean.isOccupied(r, c)) {
+						return false;
+					}
 				}
 			}
-			// check if there are any ships in the given column
-			for (int i = -1; i <= this.length; i++) {
-			    occupied = ocean.isOccupied(row-i,column); // check from row-1 to row+1
-			    if (occupied == true) {
-			    	return false;
-			    }
-			}
-			// check if there are any ships in the right column
-			if (column+1 <= 9) {
-				for (int i = -1; i <= this.length; i++) {
-				    occupied = ocean.isOccupied(row-i,column+1); // check from row-1 to row+1
-				    if (occupied == true) {
-				    	return false;
-				    }
-				}
-			}	
 		}
 		return true;
 	}
+	
 	
 	/**
 	 * 'Puts' the ship in the ocean. This involves giving values to the bowRow, bowColumn, and horizontal instance variables in the ship, and it also involves
