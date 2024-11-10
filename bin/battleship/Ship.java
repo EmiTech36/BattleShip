@@ -166,12 +166,12 @@ public abstract class Ship {
 	    if (horizontal && column-this.length >= 0 && column <= 9) { // checks for index
 	        // Place the ship horizontally (from bow to left)
 	        for (int i = 0; i < this.length; i++) {
-	            ocean.getShipsArray()[row][column - i] = this;
+	            ocean.getShipArray()[row][column - i] = this;
 	        }
 	    } else if (!horizontal && row-this.length >= 0 && row <= 9){ // checks for index
 	        // Place the ship vertically (from bow upwards)
 	        for (int i = 0; i < this.length; i++) {
-	            ocean.getShipsArray()[row - i][column] = this;
+	            ocean.getShipArray()[row - i][column] = this;
 	        }
 	    }
 	}

@@ -313,6 +313,29 @@ class ShipTest {
 		
 		//TODO
 		//More tests
+		// test 2 occupied
+		Ship cruiser = new Cruiser();
+		int row2 = 0;
+		int column2 = 3;
+		boolean horizontal2 = true;
+		boolean ok2 = cruiser.okToPlaceShipAt(row2, column2, horizontal2, ocean);
+		assertFalse(ok2, "cannot place ship here.");
+		
+		// test 3 diagonal occupied
+		Ship submarine = new Submarine(); 
+		int row3 = 1;
+		int column3 = 5;
+		boolean horizontal3 = false;
+		boolean ok3 = submarine.okToPlaceShipAt(row3, column3, horizontal3, ocean);
+		assertTrue(ok3, "Cannot place ship here.");
+		
+		// test 4 adjacent occupied
+		Ship destroyer = new Destroyer();
+		int row4 = 0;
+		int column4 = 6;
+		boolean horizontal4 = true;
+		boolean ok4 = destroyer.okToPlaceShipAt(row4, column4, horizontal4, ocean);
+		assertTrue(ok4, "Cannot place ship here.");
 	}
 	
 	@Test
@@ -387,12 +410,20 @@ class ShipTest {
 		boolean horizontal = true;
 		submarine.placeShipAt(row, column, horizontal, ocean);
 		
-		assertFalse(submarine.isSunk());
+		assertFalse(submarine.isSunk()); // test 1
 		assertFalse(submarine.shootAt(5, 2));
-		assertFalse(submarine.isSunk());
+		assertFalse(submarine.isSunk()); // test 2
 		
 		//TODO
 		//More tests
+		// test 3
+		assertFalse(submarine.shootAt(0, 0));
+		assertFalse(submarine.isSunk());
+		
+		// test 4
+		assertFalse(submarine.shootAt(3, 3));
+		assertTrue(submarine.isSunk()); 
+		
 		
 	}
 
@@ -411,6 +442,17 @@ class ShipTest {
 		
 		//TODO
 		//More tests
+		// test 3
+		Ship submarine = new Submarine();
+		assertEquals("x", submarine.toString());
+		
+		// test 4
+		int row1 = 9;
+		int column1 = 1;
+		boolean horizontal1 = false;
+		submarine.placeShipAt(row1, column1, horizontal1, ocean);
+		submarine.shootAt(9, 1);
+		assertEquals("s", submarine.toString());
 	}
 
 }
