@@ -150,7 +150,8 @@ class ShipTest {
 		
 		// test 4
 		ship.shootAt(9, 9);	// hit missed
-		assertArrayEquals(hits, ship.getHit());
+		boolean[] hits4 = {false, false, true};
+		assertArrayEquals(hits4, ship.getHit());
 		assertFalse(ship.getHit()[0]);
 		assertFalse(ship.getHit()[1]);
 	}
@@ -464,8 +465,9 @@ class ShipTest {
 		//TODO
 		//More tests
 		// test 2
-		assertFalse(battleship.shootAt(0, 9));
+		assertTrue(battleship.shootAt(0, 9));
 		boolean[] hitArray1 = {false, false, false, true};
+		System.out.print(battleship.getHit());
 		assertArrayEquals(hitArray1, battleship.getHit());
 		
 		// test 3
@@ -473,15 +475,15 @@ class ShipTest {
 		int row2 = 1;
 		int column2 = 4;
 		boolean horizontal2 = true;
-		battleship.placeShipAt(row2, column2, horizontal2, ocean);
+		submarine.placeShipAt(row2, column2, horizontal2, ocean);
 		
-		assertFalse(battleship.shootAt(1, 8));
-		boolean[] hitArray2 = {false, false, false, false};
+		assertFalse(submarine.shootAt(1, 8)); // miss
+		boolean[] hitArray2 = {false};
 		assertArrayEquals(hitArray2, submarine.getHit());
 		
 		// test 4
-		assertFalse(battleship.shootAt(1, 4));
-		boolean[] hitArray3 = {false, false, false, true};
+		assertTrue(submarine.shootAt(1, 4)); // hit
+		boolean[] hitArray3 = {true};
 		assertArrayEquals(hitArray3, submarine.getHit());
 		
 	}
@@ -506,7 +508,7 @@ class ShipTest {
 		assertFalse(submarine.isSunk());
 		
 		// test 4
-		assertFalse(submarine.shootAt(3, 3));
+		assertTrue(submarine.shootAt(3, 3));
 		assertTrue(submarine.isSunk()); 
 		
 		
