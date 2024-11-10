@@ -196,14 +196,14 @@ public abstract class Ship {
 	    if (this.horizontal) {
 	        // Horizontal ship: check if the shot matches any position from bow to the left
 	        if (row == this.bowRow && column <= this.bowColumn && column > this.bowColumn - length) {
-	            int hitIndex = this.bowColumn - column;  // Calculate the index in the hit array
+	            int hitIndex = length - 1 - (this.bowColumn - column);  // Calculate the index in the hit array
 	            this.hit[hitIndex] = true;  // Mark this part of the ship as hit
 	            return true;
 	        }
 	    } else {
 	        // Vertical ship: check if the shot matches any position from bow upwards
 	        if (column == this.bowColumn && row <= this.bowRow && row > this.bowRow - length) {
-	            int hitIndex = this.bowRow - row;  // Calculate the index in the hit array
+	            int hitIndex = length - 1 - (this.bowRow - row);  // Calculate the index in the hit array
 	            this.hit[hitIndex] = true;  // Mark this part of the ship as hit
 	            return true;
 	        }
