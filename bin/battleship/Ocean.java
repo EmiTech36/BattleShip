@@ -13,7 +13,19 @@ public class Ocean {
 	 * Also initializes any game variables, such as how many shots have been fired.
 	 */
 	public Ocean() {
+		fill_ocean();
+		shotsFired= 0;
+		hitCount = 0;
+		shipsSunk = 0;
 		
+	}
+	
+	private void fill_ocean(){ //private helper function to set up the sea (10 rows * 10 columns) 
+		for (int row = 0; row <10; row ++){
+			for (int col = 0; col <10; col++){
+				ships[row][col] = new EmptySea();
+			}
+		}
 	}
 	
 	/*
@@ -31,7 +43,12 @@ public class Ocean {
 	 * Returns true if the given location contains a ship, false if it does not
 	 */
 	boolean isOccupied(int row,int column) {
-		
+		Ship shipLocation = ships[row][column];
+		if (!(shipLocation instanceof EmptySea)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/*
@@ -49,13 +66,14 @@ public class Ocean {
 	 * returns the number of shots fired (in the game)
 	 */
 	int getShotsFired() {
-		
+		return this.shotsFired;
 	}
 	
 	/*
 	 * Returns the number of hits recorded (in the game). All hits are counted, not just the first time a given square is hit.
 	 */
 	int getHitCount() {
+		return this.hitCount;
 		
 	}
 	
@@ -63,14 +81,19 @@ public class Ocean {
 	 * Returns the number of ships sunk (in the game)
 	 */
 	int getShipsSunk() {
-		
+		return this.shipsSunk();
+	
 	}
 	
 	/*
 	 * Returns true if all ships have been sunk, otherwise false.
 	 */
 	boolean isGameOver() {
-		
+		if (shipsSunk == 10) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/*
