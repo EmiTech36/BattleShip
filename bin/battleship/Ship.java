@@ -27,27 +27,27 @@ public abstract class Ship {
 	
 	// returns the ship length
 	public int getLength() {
-		return this.length;
+		return length;
 	}
 	
 	// returns the row corresponding to the position of the bow
 	public int getBowRow() {
-		return this.bowRow;
+		return bowRow;
 	}
 	
 	// returns the bow column location
 	public int getBowColumn() {
-		return this.bowColumn;
+		return bowColumn;
 	}
 	
 	// returns the hit array
 	public boolean[] getHit() {
-		return this.hit;
+		return hit;
 	}
 	
 	// returns whether the ship is horizontal or not
 	public boolean isHorizontal() {
-		return this.horizontal ;
+		return horizontal ;
 	}
 	
 	
@@ -85,29 +85,38 @@ public abstract class Ship {
 	 */
 	boolean okToPlaceShipAt( int row, int column, boolean horizontal, Ocean ocean) {
 		boolean occupied;
+		// check for outOfIndec input
+		if (row > 9 || column > 9 || row < 0 || column < 0) {
+			return false;
+		}
 		// horizontal ship
 		if (horizontal == true) {
-			//row above:
+			if (column-this.length < -1) {
+				return false;
+			} 
+			//check if there are any ships in the row above:
 			if (0 <= row-1) {
-				for (int i = column-2; i < this.length; i++) {
-				    occupied = ocean.isOccupied(row-1, i);
-				    if (occupied == false) {
+				for (int i = -1; i <= this.length; i++) { // check from column-1 to column+1
+				    occupied = ocean.isOccupied(row-1, column-i);
+				    if (occupied == true) {
 				    	return false;
 				    }
 				}
 			}
-			// given row
-			for (int i = column-2; i < this.length; i++) {
-			    occupied = ocean.isOccupied(row, i);
-			    if (occupied == false) {
-			    	return false;
-			    }
+			// check if there are any ships in the given row
+			for (int i = -1; i <= this.length; i++) { // check from column-1 to column+1
+				if (column-this.length >= -1) {
+				    occupied = ocean.isOccupied(row, column-i); 
+				    if (occupied == true) {
+				    	return false;
+				    }
+				}
 			}
-			// row below
+			// check if there are any ships in the row below
 			if (row+1 <= 9) {
-				for (int i = column-2; i < this.length; i++) {
-				    occupied = ocean.isOccupied(row+1, i);
-				    if (occupied == false) {
+				for (int i = -1; i <= this.length; i++) { // check from column-1 to column+1
+				    occupied = ocean.isOccupied(row+1, column-i);
+				    if (occupied == true) {
 				    	return false;
 				    }
 				}
@@ -116,27 +125,30 @@ public abstract class Ship {
 		}
 		// vertical ship
 		if (horizontal == false) {
-			//left column:
+			if (row-this.length < -1) {
+				return false;
+			} 
+			//check if there are any ships in the left column:
 			if (0 <= column-1) {
-				for (int i = row-2; i < this.length; i++) {
-				    occupied = ocean.isOccupied(i,column-1);
-				    if (occupied == false) {
+				for (int i = -1; i <= this.length; i++) {
+				    occupied = ocean.isOccupied(row-i,column-1); // check from row-1 to row+1
+				    if (occupied == true) {
 				    	return false;
 				    }
 				}
 			}
-			// given column
-			for (int i = row-2; i < this.length; i++) {
-			    occupied = ocean.isOccupied(i,column);
-			    if (occupied == false) {
+			// check if there are any ships in the given column
+			for (int i = -1; i <= this.length; i++) {
+			    occupied = ocean.isOccupied(row-i,column); // check from row-1 to row+1
+			    if (occupied == true) {
 			    	return false;
 			    }
 			}
-			// right column
+			// check if there are any ships in the right column
 			if (column+1 <= 9) {
-				for (int i = row-2; i < this.length; i++) {
-				    occupied = ocean.isOccupied(i,column+1);
-				    if (occupied == false) {
+				for (int i = -1; i <= this.length; i++) {
+				    occupied = ocean.isOccupied(row-i,column+1); // check from row-1 to row+1
+				    if (occupied == true) {
 				    	return false;
 				    }
 				}
@@ -163,12 +175,12 @@ public abstract class Ship {
 		this.setHorizontal(horizontal); // set horizontal
 		
 	    // Place the ship in the 'ships' array in the Ocean object
-	    if (horizontal && column-this.length >= 0 && column <= 9) { // checks for index
+	    if (horizontal && column-this.length >= -1 && column <= 9) { // checks for index
 	        // Place the ship horizontally (from bow to left)
 	        for (int i = 0; i < this.length; i++) {
 	            ocean.getShipArray()[row][column - i] = this;
 	        }
-	    } else if (!horizontal && row-this.length >= 0 && row <= 9){ // checks for index
+	    } else if (!horizontal && row-this.length >= -1 && row <= 9){ // checks for index
 	        // Place the ship vertically (from bow upwards)
 	        for (int i = 0; i < this.length; i++) {
 	            ocean.getShipArray()[row - i][column] = this;
@@ -193,14 +205,14 @@ public abstract class Ship {
 	    if (this.horizontal) {
 	        // Horizontal ship: check if the shot matches any position from bow to the left
 	        if (row == this.bowRow && column <= this.bowColumn && column > this.bowColumn - length) {
-	            int hitIndex = this.bowColumn - column;  // Calculate the index in the hit array
+	            int hitIndex = length - 1 - (this.bowColumn - column);  // Calculate the index in the hit array
 	            this.hit[hitIndex] = true;  // Mark this part of the ship as hit
 	            return true;
 	        }
 	    } else {
 	        // Vertical ship: check if the shot matches any position from bow upwards
 	        if (column == this.bowColumn && row <= this.bowRow && row > this.bowRow - length) {
-	            int hitIndex = this.bowRow - row;  // Calculate the index in the hit array
+	            int hitIndex = length - 1 - (this.bowRow - row);  // Calculate the index in the hit array
 	            this.hit[hitIndex] = true;  // Mark this part of the ship as hit
 	            return true;
 	        }
