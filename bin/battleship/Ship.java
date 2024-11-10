@@ -85,30 +85,31 @@ public abstract class Ship {
 	 */
 	boolean okToPlaceShipAt( int row, int column, boolean horizontal, Ocean ocean) {
 		boolean occupied;
-		// horizontal ship
+		// check for outOfIndec input
 		if (row > 9 || column >9) {
 			return false;
 		}
+		// horizontal ship
 		if (horizontal == true) {
-			//row above:
+			//check if there are any ships in the row above:
 			if (0 <= row-1) {
-				for (int i = -1; i <= this.length; i++) {
+				for (int i = -1; i <= this.length; i++) { // check from column-1 to column+1
 				    occupied = ocean.isOccupied(row-1, column-i);
 				    if (occupied == true) {
 				    	return false;
 				    }
 				}
 			}
-			// given row
-			for (int i = -1; i <= this.length; i++) {
-			    occupied = ocean.isOccupied(row, column-i);
+			// check if there are any ships in the given row
+			for (int i = -1; i <= this.length; i++) { // check from column-1 to column+1
+			    occupied = ocean.isOccupied(row, column-i); 
 			    if (occupied == true) {
 			    	return false;
 			    }
 			}
-			// row below
+			// check if there are any ships in the row below
 			if (row+1 <= 9) {
-				for (int i = -1; i <= this.length; i++) {
+				for (int i = -1; i <= this.length; i++) { // check from column-1 to column+1
 				    occupied = ocean.isOccupied(row+1, column-i);
 				    if (occupied == true) {
 				    	return false;
@@ -119,26 +120,26 @@ public abstract class Ship {
 		}
 		// vertical ship
 		if (horizontal == false) {
-			//left column:
+			//check if there are any ships in the left column:
 			if (0 <= column-1) {
 				for (int i = -1; i <= this.length; i++) {
-				    occupied = ocean.isOccupied(row-i,column-1);
+				    occupied = ocean.isOccupied(row-i,column-1); // check from row-1 to row+1
 				    if (occupied == true) {
 				    	return false;
 				    }
 				}
 			}
-			// given column
+			// check if there are any ships in the given column
 			for (int i = -1; i <= this.length; i++) {
-			    occupied = ocean.isOccupied(row-i,column);
+			    occupied = ocean.isOccupied(row-i,column); // check from row-1 to row+1
 			    if (occupied == true) {
 			    	return false;
 			    }
 			}
-			// right column
+			// check if there are any ships in the right column
 			if (column+1 <= 9) {
 				for (int i = -1; i <= this.length; i++) {
-				    occupied = ocean.isOccupied(row-i,column+1);
+				    occupied = ocean.isOccupied(row-i,column+1); // check from row-1 to row+1
 				    if (occupied == true) {
 				    	return false;
 				    }
