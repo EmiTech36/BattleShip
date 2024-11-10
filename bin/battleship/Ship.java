@@ -157,17 +157,18 @@ public abstract class Ship {
 	 * If you place a vertical cruiser at location (4,0) in the ocean, the bow is at location (4,0) and the rest of the ship occupies locations (3,0), (2,0).
 	 */
 	void placeShipAt (int row, int column, boolean horizontal, Ocean ocean) {
-		this.setBowRow(row);
-		this.setBowColumn(column);
-		this.setHorizontal(horizontal);
+		
+		this.setBowRow(row); // set row
+		this.setBowColumn(column); // set column
+		this.setHorizontal(horizontal); // set horizontal
 		
 	    // Place the ship in the 'ships' array in the Ocean object
-	    if (horizontal) {
+	    if (horizontal && column-this.length >= 0 && column <= 9) { // checks for index
 	        // Place the ship horizontally (from bow to left)
 	        for (int i = 0; i < this.length; i++) {
 	            ocean.getShipsArray()[row][column - i] = this;
 	        }
-	    } else {
+	    } else if (!horizontal && row-this.length >= 0 && row <= 9){ // checks for index
 	        // Place the ship vertically (from bow upwards)
 	        for (int i = 0; i < this.length; i++) {
 	            ocean.getShipsArray()[row - i][column] = this;
