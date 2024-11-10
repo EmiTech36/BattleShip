@@ -40,9 +40,9 @@ public class Ocean {
 			if(i==0){
 				fleet[i]= new Battleship();
 			}else if(i>0 && i<=2){
-				fleet[i]= new Destroyer();
+				fleet[i]= new Cruiser();
 			}else if(i>=3 && i<=5){
-				fleet[i] = new Cruiser();
+				fleet[i] = new Destroyer();
 			}else {
 				fleet[i] = new Submarine();
 			}
