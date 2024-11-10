@@ -23,6 +23,7 @@ public class Ocean {
 		for (int row = 0; row <10; row ++){
 			for (int col = 0; col <10; col++){
 				ships[row][col] = new EmptySea();
+				ships[row][col].placeShipAt(row,col,true,this);
 			}
 		}
 	}
@@ -35,6 +36,7 @@ public class Ocean {
 	 * being placed in the Ocean while you are writing and debugging your program.
 	 */
 	public void placeAllShipsRandomly() {
+
 		Ship[] fleet = new Ship[10];
 		for(int i=0; i<10;i++){
 			if(i==0){
@@ -85,12 +87,23 @@ public class Ocean {
 	 * Note: If a location contains a “real” ship, shootAt should return true every time the user shoots at that same location. Once a ship has
 	 * been ”sunk”, additional shots at its location should return false.
 	 */
-	public boolean shootAt(int row,int column) {
+	public boolean shootAt(int row,int col) {
 		shotsFired = shotsFired + 1;
-		Ship ship = ships[row][column]; //locate the ship to be shot
-		if (this.isOccupied(row, column) && !ship.isSunk()) {//not sure
+		Ship ship = ships[row][col]; //locate the ship to be shot
+		if (this.isOccupied(row, col) && !ship.isSunk()) {//not sure
 				hitCount = hitCount + 1;
+				int ship_bowrow= ship.getBowRow();
+				int ship_bowcol = ship.getBowColumn();
+				if(row == ship_bowrow){ //Ship is placed horizontal
+					ship.getHit()[ship_bowcol - col]=true;
+				}else {
+					ship.getHit()[ship_bowrow - row] = true;
+				}
 				return true;
+		}
+		if (!this.isOccupied(row,col)){ //When the location is an EmptySea object
+			ship.getHit()[0] = true; // Set the EmptySea as Hit, so that the Print will show as “-" rather than "."
+
 		}
 		return false;
 
@@ -150,6 +163,7 @@ public class Ocean {
 		for(int row=0; row<11; row++){
 			for(int col=0; col<11; col++) {
 				if(row ==0 && col==0){
+					System.out.print(" ");
 					continue;
 				}else if(row == 0){
 					System.out.print(col-1);
@@ -159,15 +173,10 @@ public class Ocean {
 					continue;
 				}
 				Ship current_pixel = ships[row-1][col-1];
-				if(current_pixel.getBowColumn()==col-1){ //current pixel is same column as the Bow of the Ship -- Ship is vertical (or the location is a bow)
-				 if(current_pixel.getHit()[row-1-current_pixel.getBowRow()]){
+				if(current_pixel.getBowColumn()==col-1 && current_pixel.getHit()[current_pixel.getBowRow()-row+1]){ //current pixel is same column as the Bow of the Ship -- Ship is vertical (or the location is a bow)
 					 System.out.print(current_pixel);
-				 }
-				} else if(current_pixel.getBowRow()==row-1) { //current pixel is same row as the Bow of the Ship -- Ship is horizontal (or the location is a bow)
-					System.out.print(col-1-current_pixel.getBowColumn());
-					if(current_pixel.getHit()[col-1-current_pixel.getBowColumn()]){
+				} else if(current_pixel.getBowRow()==row-1 && current_pixel.getHit()[current_pixel.getBowColumn()-col+1]) { //current pixel is same row as the Bow of the Ship -- Ship is horizontal (or the location is a bow)
 						System.out.print(current_pixel);
-					}
 				} else{
 					System.out.print(".");
 				}
@@ -194,6 +203,7 @@ public class Ocean {
 		for(int row=0; row<11; row++){
 			for(int col=0; col<11; col++) {
 				if(row ==0 && col==0){
+					System.out.print(" ");
 					continue;
 				}else if(row == 0){
 					System.out.print(col-1);
