@@ -102,6 +102,9 @@ public abstract class Ship {
 			}
 			// check if there are any ships in the given row
 			for (int i = -1; i <= this.length; i++) { // check from column-1 to column+1
+				if (column-i == -1) { // account for indexOutofBound when column = 0
+					continue;
+				}
 			    occupied = ocean.isOccupied(row, column-i); 
 			    if (occupied == true) {
 			    	return false;
@@ -131,6 +134,9 @@ public abstract class Ship {
 			}
 			// check if there are any ships in the given column
 			for (int i = -1; i <= this.length; i++) {
+				if (row-i == -1) { // account for indexOutofBound when row = 0
+					continue;
+				}
 			    occupied = ocean.isOccupied(row-i,column); // check from row-1 to row+1
 			    if (occupied == true) {
 			    	return false;
