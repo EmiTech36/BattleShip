@@ -50,19 +50,6 @@ class OceanTest {
 	@Test
 	void testPlaceAllShipsRandomly() {
 
-	//tests that the correct number of each ship type is placed in the ocean
-
-//		Ship battleship = new Battleship();
-//		int row2 = 5;
-//		int column2 = 9;
-//		boolean horizontal2 = true;
-//		boolean ok2 = battleship.okToPlaceShipAt(row2, column2, horizontal2, ocean);
-//		///TESTING START
-//		Ship test_cruiser = new Cruiser();
-//		test_cruiser.okToPlaceShipAt(3, 0, false, ocean);
-//		///TESTING END
-
-
 		ocean.placeAllShipsRandomly();
 
 		Ship[][] ships = ocean.getShipArray();
@@ -130,10 +117,12 @@ class OceanTest {
 
 
 		//TODO
-		//More tests
+		//test destroyer
 		assertTrue(ocean.isOccupied(1, 5)); // Bow of the destroyer
-		assertTrue(ocean.isOccupied(0, 5)); // Bow of the destroyer
-		assertFalse(ocean.isOccupied(2, 5));
+		assertTrue(ocean.isOccupied(0, 5)); //still a part of the destroyer
+		assertFalse(ocean.isOccupied(2, 5)); //not a ship
+
+		//test submarine
 		assertTrue(ocean.isOccupied(0, 0));
 		assertFalse(ocean.isOccupied(0, 1));
 
@@ -157,21 +146,28 @@ class OceanTest {
 		int row = 1;
 		int column = 5;
 		boolean horizontal = false;
-		destroyer.placeShipAt(row, column, horizontal, ocean);
+		destroyer.placeShipAt(row, column, horizontal, ocean); //create a vertical destroyer at 1,5
 
-		assertTrue(ocean.shootAt(1, 5));
-		assertFalse(destroyer.isSunk());
-		assertTrue(ocean.shootAt(0, 5));
-		assertTrue(destroyer.isSunk());
+		assertTrue(ocean.shootAt(1, 5)); //shoot at destroyer
+		assertFalse(destroyer.isSunk()); //not sunk yet
+		assertTrue(ocean.shootAt(0, 5)); //also part of the destroyer
+		assertTrue(destroyer.isSunk()); //now sunk
 
 		//TODO
-		//More tests
+		//Create a horizontal battleship at 6,6
 		Battleship battleship = new Battleship();
 		//create and place a new horizontal battleship at 6,6
 		battleship.placeShipAt(6, 6, true, ocean);
 		assertTrue(ocean.shootAt(6, 5)); //shoot at part of the battleship
 		assertFalse(battleship.isSunk());
 		assertTrue(ocean.shootAt(6, 4)); //shoot at part of the battleship
+
+
+		Submarine submarine = new Submarine();
+		//create and place a new horizontal battleship at 8,2
+		submarine.placeShipAt(8, 2, true, ocean);
+		assertTrue(ocean.shootAt(8, 2)); //shoot at part of the battleship
+		assertTrue(submarine.isSunk()); //sunk already
 
 
 
@@ -267,6 +263,22 @@ class OceanTest {
 		assertTrue(submarine.isSunk());
 
 
+        //create a vertical battleship at 7,7
+		Battleship battleship = new Battleship();
+		row = 7;
+		column = 7;
+		horizontal = false;
+		battleship.placeShipAt(row, column, horizontal, ocean);
+		//ocean.printWithShips();
+
+		assertTrue(ocean.shootAt(7, 7));
+		assertFalse(battleship.isSunk()); //not sunk yet
+		assertEquals(4, ocean.getHitCount());
+		assertTrue(ocean.shootAt(6, 7));
+		assertEquals(2, ocean.getShipsSunk());
+
+
+
 	}
 
 	@Test
@@ -300,6 +312,17 @@ class OceanTest {
 		assertEquals("submarine", shipArray[0][0].getShipType()); //this cell is a submarine
 		assertEquals("empty", shipArray[1][0].getShipType()); // Adjacent cell empty
 		assertEquals("empty", shipArray[0][1].getShipType()); //  Adjacent cell empty
+
+
+		//Create a submarine
+		Cruiser cruiser = new Cruiser();
+		row = 9;
+		column = 3;
+		cruiser.placeShipAt(row, column, true, ocean);
+		ocean.printWithShips();
+		assertEquals("cruiser", shipArray[9][2].getShipType()); //this cell is a cruiser
+		assertEquals("empty", shipArray[9][4].getShipType()); // Adjacent cell empty
+		assertEquals("empty", shipArray[8][3].getShipType()); //  Adjacent cell empty
 
 	}
 }
