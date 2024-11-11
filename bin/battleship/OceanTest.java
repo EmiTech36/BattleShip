@@ -52,19 +52,15 @@ class OceanTest {
 
 	//tests that the correct number of each ship type is placed in the ocean
 
-
-
-		Ship battleship = new Battleship();
-		int row2 = 0;
-		int column2 = 3;
-		boolean horizontal2 = false;
-		boolean ok2 = battleship.okToPlaceShipAt(row2, column2, horizontal2, ocean);
-		///TESTING START
-		Ship test_cruiser = new Cruiser();
-		test_cruiser.okToPlaceShipAt(3, 0, false, ocean);
-
-
-		///TESTING END
+//		Ship battleship = new Battleship();
+//		int row2 = 5;
+//		int column2 = 9;
+//		boolean horizontal2 = true;
+//		boolean ok2 = battleship.okToPlaceShipAt(row2, column2, horizontal2, ocean);
+//		///TESTING START
+//		Ship test_cruiser = new Cruiser();
+//		test_cruiser.okToPlaceShipAt(3, 0, false, ocean);
+//		///TESTING END
 
 
 		ocean.placeAllShipsRandomly();
