@@ -71,6 +71,10 @@ public class Ocean {
 	 * Returns true if the given location contains a ship, false if it does not
 	 */
 	public boolean isOccupied(int row,int column) {
+		//Temporary patch to resolve out of bound issue
+		if(row<0 || row > 9 || column < 0 || column > 9){
+			return true;
+		}
 		Ship shipLocation = ships[row][column];
 		if (shipLocation.getShipType().equals("empty")) {
 			return false;
@@ -90,14 +94,17 @@ public class Ocean {
 	public boolean shootAt(int row,int col) {
 		shotsFired = shotsFired + 1;
 		Ship ship = ships[row][col]; //locate the ship to be shot
-		if (this.isOccupied(row, col) && !ship.isSunk()) {//not sure
+		if (this.isOccupied(row, col) && !ship.isSunk()) {
 				hitCount = hitCount + 1;
 				int ship_bowrow= ship.getBowRow();
 				int ship_bowcol = ship.getBowColumn();
 				if(row == ship_bowrow){ //Ship is placed horizontal
-					ship.getHit()[ship_bowcol - col]=true;
+					ship.getHit()[ship_bowcol - col] = true;
 				}else {
 					ship.getHit()[ship_bowrow - row] = true;
+				}
+				if(ship.isSunk()){
+					this.shipsSunk++;
 				}
 				return true;
 		}
