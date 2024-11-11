@@ -11,7 +11,7 @@ public class BattleshipGame {
 
 		// Step 2: Create an ocean and place ships randomly
 		Ocean ocean = createGame();
-		ocean.printWithShips();
+		//ocean.printWithShips();
 		ocean.print();
 
 		// Create a single Scanner instance for the entire game
@@ -36,32 +36,49 @@ public class BattleshipGame {
 
 	// Function to ask for player inputs indicating a specific row and column to hit
 	public static void toHit(Ocean ocean, Scanner scanner) {
-		System.out.print("Enter row, column: ");
-		String input = scanner.nextLine();
+		int row = -1;
+		int column = -1;
+		while (true) {
+			System.out.print("Enter row, column: ");
+			String input = scanner.nextLine();
 
-		// Split the input string by the comma
-		String[] parts = input.split(",");
-
-		// Parse row and column as integers
-		int row = Integer.parseInt(parts[0].trim());
-		int column = Integer.parseInt(parts[1].trim());
-
-		// Perform the shot and display result
-		boolean hitOrMiss = ocean.shootAt(row, column);
-		if (hitOrMiss) {
-			System.out.println("Hit!");
-			if(ocean.getShipArray()[row][column].isSunk()){
-				System.out.println("You just sank a ship- " + ocean.getShipArray()[row][column].getShipType());
+			// Split the input by the comma
+			String[] parts = input.split(",");
+			if (parts.length > 2){
+				System.out.println("Invalid input. Please a valid row, column");
+				continue;
 			}
-		} else {
-			System.out.println("Miss!");
+			try {
+				// split the row and column
+				row = Integer.parseInt(parts[0].trim());
+				column = Integer.parseInt(parts[1].trim());
+                //consider the out of bound condition
+				if (row > 9 || column > 9 || row < 0 || column < 0) {
+					System.out.print("Please enter a valid row, column: ");
+				} else {
+					break; //get out from whiel
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("Invalid input.");
+			}
 		}
+
+			// Perform the shot and display result
+			boolean hitOrMiss = ocean.shootAt(row, column); //call the shootAt method
+			if (hitOrMiss) {
+				System.out.println("Hit!");
+				if (ocean.getShipArray()[row][column].isSunk()) { //if the ship is sunk
+					System.out.println("You just sank a ship- " + ocean.getShipArray()[row][column].getShipType());
+				}
+			} else {
+				System.out.println("Miss!"); //did not hit any ship
+			}
 	}
 
 	// Print final result message
 	public static void printResult(Ocean ocean) {
 		int shots = ocean.getShotsFired();
-		System.out.println(shots + " shots were required.");
+		System.out.println(shots + " shots were required."); //print number of total shots
 	}
 
 	// Print welcome message
